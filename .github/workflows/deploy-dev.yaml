@@ -88,6 +88,10 @@ jobs:
         run: |
           kubectl kustomize "https://github.com/nginxinc/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v1.4.0" | kubectl apply -f -
 
+      - name: Deploy NGINX Gateway Fabric
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/nginxinc/nginx-gateway-fabric/v1.4.0/deploy/default/deploy.yaml
+
       - name: Add Bitnami Helm Repository
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
