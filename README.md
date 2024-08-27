@@ -3,8 +3,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/heightful/heightful-devops-manifest">
-    <img src="https://github.com/heightful/heightful-branding-assets/blob/main/logos/logo.png?raw=true" alt="Serenaid Logo" width="120" height="120">
+  <a href="https://github.com/heightful/heightful-devops-manifests">
+    <img src="https://github.com/heightful/heightful-design-assets/blob/main/logos/logo.png?raw=true" alt="Heightful Logo" width="120" height="120">
   </a>
 
 <h3 align="center">Heightful</h3>
