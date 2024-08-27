@@ -84,6 +84,10 @@ jobs:
             --docker-email=${{ secrets.DOCKERHUB_EMAIL }} \
             -n $K8S_NAMESPACE || echo "Secret already exists"
 
+      - name: Install NGINX Gateway Fabric
+        run: |
+          kubectl kustomize "https://github.com/nginxinc/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v1.4.0" | kubectl apply -f -
+
       - name: Add Bitnami Helm Repository
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
