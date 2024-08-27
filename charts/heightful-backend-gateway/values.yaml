@@ -1,0 +1,50 @@
+namespace: default
+
+replicaCount: 1
+
+image:
+  repository: samjsui/heightful-backend-gateway
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  name: dev-heightful-registry
+
+gateway:
+  name: heightful-gateway
+  className: nginx
+
+route:
+  name: heightful-gateway-route
+  path: /
+  hostname: localhost
+
+service:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "200m"
+    memory: "512Mi"
+
+environment:
+  variables:
+    - name: SPRING_PROFILES_ACTIVE
+      value: dev
+
+spring:
+  config:
+    import: http://heightful-backend-config:8888/
+
+heightful:
+  service:
+    auth:
+      url: heightful-backend-auth.svc.cluster.local
+    identity:
+      url: heightful-backend-identity.svc.cluster.local

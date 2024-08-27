@@ -1,0 +1,26 @@
+namespace: default
+
+replicaCount: 1
+
+image:
+  repository: samjsui/heightful-backend-config
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  name: dev-heightful-registry
+
+service:
+  type: ClusterIP
+  port: 8888
+
+resources:
+  requests:
+    memory: "256Mi"
+  limits:
+    memory: "512Mi"
+
+environment:
+  variables:
+    - name: SPRING_PROFILES_ACTIVE
+      value: dev

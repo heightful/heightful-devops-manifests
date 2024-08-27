@@ -1,0 +1,43 @@
+namespace: default
+
+replicaCount: 1
+
+image:
+  repository: samjsui/heightful-backend-identity
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  name: dev-heightful-registry
+
+service:
+  type: ClusterIP
+  port: 8082
+
+resources:
+  requests:
+    memory: "256Mi"
+  limits:
+    memory: "512Mi"
+
+environment:
+  variables:
+    - name: SPRING_PROFILES_ACTIVE
+      value: dev
+
+spring:
+  config:
+    import: http://heightful-backend-config:8888/
+
+rabbitmq:
+  host: rabbitmq
+  port: 5672
+  username: guest
+  password: guest
+
+db:
+  host: http://localhost
+  port: 5432
+  name: postgres
+  username: postgres
+  password: postgres

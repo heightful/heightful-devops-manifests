@@ -1,0 +1,48 @@
+namespace: default
+
+replicaCount: 1
+
+image:
+  repository: samjsui/heightful-backend-auth
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  name: dev-heightful-registry
+
+service:
+  type: ClusterIP
+  port: 8081
+
+resources:
+  requests:
+    memory: "256Mi"
+  limits:
+    memory: "512Mi"
+
+environment:
+  variables:
+    - name: SPRING_PROFILES_ACTIVE
+      value: dev
+    - name: JWT_EXPIRATION
+      value: !!string 86400000
+
+spring:
+  config:
+    import: http://heightful-backend-config:8888/
+
+rabbitmq:
+  host: rabbitmq
+  port: 5672
+  username: guest
+  password: guest
+
+auth:
+  jwtSecret: ""
+
+db:
+  host: http://localhost
+  port: 5432
+  name: postgres
+  username: postgres
+  password: postgres
