@@ -153,6 +153,7 @@ jobs:
             --set namespace=$K8S_NAMESPACE \
             --set spring.config.import=http://heightful-backend-config.$K8S_NAMESPACE.svc.cluster.local:8888/ \
             --set ingress.host=dev.api.heightful.com \
+            --set route.hostname=dev.api.heightful.com \
             --set heightful.service.auth.url=http://heightful-backend-auth.$K8S_NAMESPACE.svc.cluster.local:8081/ \
             --set heightful.service.identity.url=http://heightful-backend-identity.$K8S_NAMESPACE.svc.cluster.local:8082/ \
             --namespace $K8S_NAMESPACE --create-namespace
