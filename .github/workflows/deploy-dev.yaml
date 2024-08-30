@@ -30,7 +30,7 @@ jobs:
       HEIGHTFUL_BACKEND_AUTH_NAME: heightful-backend-auth
       HEIGHTFUL_BACKEND_IDENTITY_NAME: heightful-backend-identity
       HEIGHTFUL_BACKEND_GATEWAY_NAME: heightful-backend-gateway
-      HEIGHTFUL_GATEWAY_NAME: heightful-gateway
+      NGINX_GATEWAY_FABRIC_NAME: nginx-gateway-fabric
 
     steps:
       - name: Check out repository
@@ -175,7 +175,7 @@ jobs:
 
       - name: Deploy Heightful Gateway (heightful-gateway)
         run: |
-          helm upgrade --install $HEIGHTFUL_GATEWAY_NAME ./charts/$HEIGHTFUL_GATEWAY_NAME \
+          helm upgrade --install $NGINX_GATEWAY_FABRIC_NAME ./charts/$NGINX_GATEWAY_FABRIC_NAME \
             --set namespace=$K8S_NAMESPACE \
             --set route.hostname=dev.api.heightful.com \
             --namespace $K8S_NAMESPACE --create-namespace
