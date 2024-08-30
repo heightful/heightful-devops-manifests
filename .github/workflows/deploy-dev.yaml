@@ -101,7 +101,7 @@ jobs:
 
       - name: Install cert-manager
         run: |
-          helm upgrade \
+          helm upgrade --install \
           cert-manager jetstack/cert-manager \
           --namespace cert-manager \
           --create-namespace \
@@ -175,7 +175,7 @@ jobs:
 
       - name: Deploy Heightful Gateway (heightful-gateway)
         run: |
-          helm upgrade --install $NGINX_GATEWAY_FABRIC_NAME ./charts/$NGINX_GATEWAY_FABRIC_NAME \
+          helm upgrade --install $HEIGHTFUL_GATEWAY_NAME ./charts/$HEIGHTFUL_GATEWAY_NAME \
             --set namespace=$K8S_NAMESPACE \
             --set route.hostname=dev.api.heightful.com \
             --namespace $K8S_NAMESPACE --create-namespace

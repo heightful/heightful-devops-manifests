@@ -1,0 +1,5 @@
+apiVersion: v2
+name: heightful-gateway
+description: Helm chart for the Heightful Gateway
+version: 0.1.0
+appVersion: "1.0"
