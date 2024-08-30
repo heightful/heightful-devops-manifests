@@ -30,6 +30,7 @@ jobs:
       HEIGHTFUL_BACKEND_AUTH_NAME: heightful-backend-auth
       HEIGHTFUL_BACKEND_IDENTITY_NAME: heightful-backend-identity
       HEIGHTFUL_BACKEND_GATEWAY_NAME: heightful-backend-gateway
+      HEIGHTFUL_GATEWAY_NAME: heightful-gateway
       NGINX_GATEWAY_FABRIC_NAME: nginx-gateway-fabric
 
     steps:
