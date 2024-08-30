@@ -1,0 +1,16 @@
+namespace: default
+
+gateway:
+  name: heightful-gateway
+  className: nginx
+
+route:
+  name: heightful-gateway-route
+  path: /
+  hostname: localhost
+
+service:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080

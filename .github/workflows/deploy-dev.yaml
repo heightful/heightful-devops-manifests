@@ -30,6 +30,7 @@ jobs:
       HEIGHTFUL_BACKEND_AUTH_NAME: heightful-backend-auth
       HEIGHTFUL_BACKEND_IDENTITY_NAME: heightful-backend-identity
       HEIGHTFUL_BACKEND_GATEWAY_NAME: heightful-backend-gateway
+      HEIGHTFUL_GATEWAY_NAME: heightful-gateway
 
     steps:
       - name: Check out repository
@@ -84,18 +85,33 @@ jobs:
             --docker-email=${{ secrets.DOCKERHUB_EMAIL }} \
             -n $K8S_NAMESPACE || echo "Secret already exists"
 
-      - name: Install NGINX Gateway Fabric
-        run: |
-          kubectl kustomize "https://github.com/nginxinc/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v1.4.0" | kubectl apply -f -
-
-      - name: Deploy NGINX Gateway Fabric
-        run: |
-          kubectl apply -f https://raw.githubusercontent.com/nginxinc/nginx-gateway-fabric/v1.4.0/deploy/default/deploy.yaml
-
       - name: Add Bitnami Helm Repository
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
           helm repo update
+
+      - name: Add Jetstack Helm Repository
+        run: |
+          helm repo add jetstack https://charts.jetstack.io
+          helm repo update
+
+      - name: Install NGINX Gateway Fabric
+        run: |
+          kubectl kustomize "https://github.com/nginxinc/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v1.4.0" | kubectl apply -f -
+
+      - name: Install cert-manager
+        run: |
+          helm install \
+          cert-manager jetstack/cert-manager \
+          --namespace cert-manager \
+          --create-namespace \
+          --version v1.12.0 \
+          --set installCRDs=true \
+          --set "extraArgs={--feature-gates=ExperimentalGatewayAPISupport=true}"
+
+      - name: Deploy NGINX Gateway Fabric
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/nginxinc/nginx-gateway-fabric/v1.4.0/deploy/default/deploy.yaml
 
       - name: Deploy RabbitMQ
         run: |
@@ -155,6 +171,13 @@ jobs:
             --set route.hostname=dev.api.heightful.com \
             --set heightful.service.auth.url=http://heightful-backend-auth.$K8S_NAMESPACE.svc.cluster.local:8081/ \
             --set heightful.service.identity.url=http://heightful-backend-identity.$K8S_NAMESPACE.svc.cluster.local:8082/ \
+            --namespace $K8S_NAMESPACE --create-namespace
+
+      - name: Deploy Heightful Gateway (heightful-gateway)
+        run: |
+          helm upgrade --install $HEIGHTFUL_GATEWAY_NAME ./charts/$HEIGHTFUL_GATEWAY_NAME \
+            --set namespace=$K8S_NAMESPACE \
+            --set route.hostname=dev.api.heightful.com \
             --namespace $K8S_NAMESPACE --create-namespace
 
       - name: Verify deployments
