@@ -18,5 +18,6 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - kind: Secret
-        name: {{ .Values.certificate.secret }}
+      - name: {{ .Values.certificate.secret }}
+        namespace: {{ .Release.Namespace }}
+        kind: Secret
