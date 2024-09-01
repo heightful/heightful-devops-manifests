@@ -6,6 +6,7 @@ metadata:
 spec:
   parentRefs:
     - name: {{ .Values.gateway.name }}
+      sectionName: https
   hostname: {{ .Values.route.hostname | quote }}
   rules:
     - matches:
