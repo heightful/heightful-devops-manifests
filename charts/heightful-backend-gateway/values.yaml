@@ -48,5 +48,6 @@ route:
   hostname: localhost
 
 certificate:
-  issuer-account-key: issue-account-key
+  issuer: 
+    key: issuer-account-key
   secret: heightful-gateway-secret
