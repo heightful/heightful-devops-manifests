@@ -58,11 +58,6 @@ jobs:
         id: determine_namespace
         run: echo "K8S_NAMESPACE=dev" >> $GITHUB_ENV
 
-  setup-infrastructure:
-    runs-on: ubuntu-latest
-    needs: checkout-and-setup
-
-    steps:
       - name: Clean up Service Namespace
         run: |
           if kubectl get namespace $K8S_NAMESPACE; then
@@ -162,7 +157,7 @@ jobs:
 
   deploy-identity-service:
     runs-on: ubuntu-latest
-    needs: deploy-auth-service
+    needs: deploy-config-service
 
     steps:
       - name: Deploy Identity Service (heightful-backend-identity)
