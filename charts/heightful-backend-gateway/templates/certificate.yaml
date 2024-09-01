@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: heightful-tls
+  namespace: dev
+spec:
+  secretName: {{ .Values.certificate.secret }}
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: dev.api.heightful.com
+  dnsNames:
+    - dev.api.heightful.com

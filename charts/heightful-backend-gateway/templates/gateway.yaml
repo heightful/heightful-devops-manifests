@@ -17,3 +17,6 @@ spec:
       certificateRefs:
       - kind: Secret
         name: {{ .Values.certificate.secret }}
+    routes:
+        - kind: HTTPRoute
+          name: {{ .Values.route.name }}
