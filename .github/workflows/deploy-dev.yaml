@@ -100,7 +100,7 @@ jobs:
 
       - name: Install cert-manager
         run: |
-          helm install \
+          helm upgrade --install \
           cert-manager jetstack/cert-manager \
           --namespace cert-manager \
           --create-namespace \
