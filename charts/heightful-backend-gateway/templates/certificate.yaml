@@ -1,7 +1,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: heightful-tls
+  name: {{ .Values.certificate.secret }}
   namespace: dev
 spec:
   secretName: {{ .Values.certificate.secret }}
