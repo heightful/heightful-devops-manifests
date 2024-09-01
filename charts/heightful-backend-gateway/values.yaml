@@ -10,15 +10,6 @@ image:
 imagePullSecrets:
   name: dev-heightful-registry
 
-gateway:
-  name: heightful-gateway
-  className: nginx
-
-route:
-  name: heightful-gateway-route
-  path: /
-  hostname: localhost
-
 service:
   type: LoadBalancer
   ports:
@@ -46,3 +37,16 @@ heightful:
       url: heightful-backend-auth.svc.cluster.local
     identity:
       url: heightful-backend-identity.svc.cluster.local
+
+gateway:
+  name: heightful-gateway
+  className: nginx
+
+route:
+  name: heightful-gateway-route
+  path: /
+  hostname: localhost
+
+certificate:
+  issuer-account-key: issue-account-key
+  secret: heightful-gateway-secret
