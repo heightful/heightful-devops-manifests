@@ -7,7 +7,7 @@ spec:
     email: sam@heightful.com
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: {{ .Values.certificate.issuer.key }}
+      name: {{ .Values.certificate.secret }}
     solvers:
     - http01:
         gatewayHTTPRoute:
