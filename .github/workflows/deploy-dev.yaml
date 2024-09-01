@@ -91,8 +91,7 @@ jobs:
 
       - name: Install cert-manager
         run: |
-          helm upgrade --install \
-          cert-manager jetstack/cert-manager \
+          helm upgrade --install cert-manager jetstack/cert-manager \
           --namespace cert-manager \
           --create-namespace \
           --version v1.12.0 \
@@ -104,6 +103,16 @@ jobs:
     needs: setup
 
     steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig and setup Kubernetes context
+        run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.DO_CLUSTER_CREDENTIALS_DEV }}
+          kubectl config current-context
+
       - name: Deploy RabbitMQ
         run: |
           helm upgrade --install rabbitmq bitnami/rabbitmq \
@@ -116,6 +125,16 @@ jobs:
     needs: setup
 
     steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig and setup Kubernetes context
+        run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.DO_CLUSTER_CREDENTIALS_DEV }}
+          kubectl config current-context
+
       - name: Deploy NGINX Gateway Fabric
         run: |
           kubectl apply -f https://raw.githubusercontent.com/nginxinc/nginx-gateway-fabric/v1.4.0/deploy/default/deploy.yaml
@@ -125,6 +144,16 @@ jobs:
     needs: setup
 
     steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig and setup Kubernetes context
+        run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.DO_CLUSTER_CREDENTIALS_DEV }}
+          kubectl config current-context
+
       - name: Deploy Config Service (heightful-backend-config)
         run: |
           helm upgrade --install $HEIGHTFUL_BACKEND_CONFIG_NAME ./charts/$HEIGHTFUL_BACKEND_CONFIG_NAME \
@@ -137,6 +166,16 @@ jobs:
     needs: deploy-config-service
 
     steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig and setup Kubernetes context
+        run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.DO_CLUSTER_CREDENTIALS_DEV }}
+          kubectl config current-context
+
       - name: Deploy Auth Service (heightful-backend-auth)
         run: |
           helm upgrade --install $HEIGHTFUL_BACKEND_AUTH_NAME ./charts/$HEIGHTFUL_BACKEND_AUTH_NAME \
@@ -160,6 +199,16 @@ jobs:
     needs: deploy-config-service
 
     steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig and setup Kubernetes context
+        run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.DO_CLUSTER_CREDENTIALS_DEV }}
+          kubectl config current-context
+
       - name: Deploy Identity Service (heightful-backend-identity)
         run: |
           helm upgrade --install $HEIGHTFUL_BACKEND_IDENTITY_NAME ./charts/$HEIGHTFUL_BACKEND_IDENTITY_NAME \
@@ -182,6 +231,16 @@ jobs:
     needs: [deploy-auth-service, deploy-identity-service]
 
     steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig and setup Kubernetes context
+        run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.DO_CLUSTER_CREDENTIALS_DEV }}
+          kubectl config current-context
+
       - name: Deploy Gateway Service (heightful-backend-gateway)
         run: |
           helm upgrade --install $HEIGHTFUL_BACKEND_GATEWAY_NAME ./charts/$HEIGHTFUL_BACKEND_GATEWAY_NAME \
@@ -198,6 +257,16 @@ jobs:
     needs: deploy-gateway-service
 
     steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Save DigitalOcean kubeconfig and setup Kubernetes context
+        run: |
+          doctl kubernetes cluster kubeconfig save ${{ secrets.DO_CLUSTER_CREDENTIALS_DEV }}
+          kubectl config current-context
+
       - name: Verify deployments
         run: |
           kubectl get pods -n $K8S_NAMESPACE
