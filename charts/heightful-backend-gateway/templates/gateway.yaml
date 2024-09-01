@@ -2,6 +2,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: {{ .Values.gateway.name }}
+  namespace: {{ .Release.Namespace }}
 spec:
   gatewayClassName: {{ .Values.gateway.className | default "nginx" }}
   listeners:
@@ -17,6 +18,3 @@ spec:
       certificateRefs:
       - kind: Secret
         name: {{ .Values.certificate.secret }}
-    routes:
-        - kind: HTTPRoute
-          name: {{ .Values.route.name }}
